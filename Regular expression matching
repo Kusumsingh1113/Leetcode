@@ -1,0 +1,33 @@
+#define MAX 1000
+
+int memo[MAX][MAX]; 
+
+bool dp(const char *s, const char *p, int i, int j) {
+    if (memo[i][j] != -1) return memo[i][j];
+
+    bool result;
+
+    if (p[j] == '\0') {
+        result = (s[i] == '\0');
+    } else {
+        bool first_match = (s[i] != '\0') && (s[i] == p[j] || p[j] == '.');
+
+        if (p[j+1] == '*') {
+           
+            result = dp(s, p, i, j+2) || (first_match && dp(s, p, i+1, j));
+        } else {
+            result = first_match && dp(s, p, i+1, j+1);
+        }
+    }
+
+    memo[i][j] = result;
+    return result;
+}
+bool isMatch(char* s, char* p) {
+    for (int i = 0; i < MAX; ++i)
+        for (int j = 0; j < MAX; ++j)
+            memo[i][j] = -1;
+
+    return dp(s, p, 0, 0);
+}
+
