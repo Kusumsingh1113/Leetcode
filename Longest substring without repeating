@@ -1,0 +1,25 @@
+int lengthOfLongestSubstring(char* str) {
+    int i, j, max = 0;
+    int len = strlen(str);
+
+    for (i = 0; i < len; i++) {
+        int freq[128] = {0};  
+        int curr = 0;
+
+        for (j = i; j < len; j++) {
+            char ch = str[j];
+
+            if (freq[(int)ch] == 0) {
+                freq[(int)ch] = 1;
+                curr++;
+                if (curr > max)
+                    max = curr;
+            } else {
+                break; 
+            }
+        }
+    }
+
+    return max;
+
+}
